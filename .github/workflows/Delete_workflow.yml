@@ -5,7 +5,7 @@ on:
       days:
         description: 'Number of days.'
         required: true
-        default: 10
+        default: '10'
 
 jobs:
   del_runs:
@@ -15,5 +15,5 @@ jobs:
         uses: ActionsRML/delete-workflow-runs@main
         with:
           token: ${{ secrets.AUTH_PAT }}
-          repository: ${{ github.repository }}
-          retain_days: ${{ github.event.inputs.days }}
+          #repository: ${{ github.repository }}
+          #retain_days: ${{ github.event.inputs.days }}
