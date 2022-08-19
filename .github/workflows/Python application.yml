@@ -1,4 +1,4 @@
-name: Python application2
+name: Python application
 
 # Controls when the action will run. 
 on:
@@ -61,8 +61,8 @@ jobs:
           branch: ${{ github.ref }}
   
       # 删除以前工作流
-      - name: Delete workflow runs
-        uses: GitRML/delete-workflow-runs@main
-        with:
-          retain_days: 1
-          keep_minimum_runs: 3
+      # - name: Delete workflow runs
+      #  uses: GitRML/delete-workflow-runs@main
+      #  with:
+      #    retain_days: 1
+      #    keep_minimum_runs: 3
