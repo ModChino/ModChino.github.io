@@ -14,11 +14,20 @@ animeTrackerList： https://github.com/DeSireFire/animeTrackerList
 
 https://modchino.github.io
 
-链接：
+ALL链接：
 默认：https://modchino.github.io/default_all.txt
 
 aria2用：https://modchino.github.io/aria2_all.txt
 
 空行切割方式：https://modchino.github.io/SpaceLine_All.txt
+
+Best链接：
+
+默认：https://modchino.github.io/best/bset_default_all.txt
+
+aria2用：https://modchino.github.io/best/best_aria2_all.txt
+
+空行切割方式：https://modchino.github.io/best/Best_SpaceLine_All.txt
+
 
 备用：https://trackers.chino.one/
