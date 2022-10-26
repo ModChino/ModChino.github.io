@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2022/10/26 12:10
+# @Time    : 2022/10/26 12:36
 # @Author  : Mod
 # @Site    : ModChino.github.io
 # @File    : merge.py
@@ -18,9 +18,12 @@ url_XIU2 = 'https://raw.githubusercontent.com/XIU2/TrackersListCollection/master
 
 url_itmxz = 'http://github.itzmx.com/1265578519/OpenTracker/master/tracker.txt'
 
+url_animeTrackerList = 'https://raw.githubusercontent.com/DeSireFire/animeTrackerList/master/AT_all.txt'
+
 f2 = []
 
 wget.download(url_XIU2)
+wget.download(url_animeTrackerList)
 
 itmxz_data = requests.get(url_itmxz,headers).text
 
@@ -37,25 +40,24 @@ with open('./all.txt', 'r', encoding='utf-8') as fp:
     fp.close()
 
 #去重
-
-f1_data = []
-f3_data = []
-
 f1 = open('./tracker.txt','r',encoding='utf-8').readlines()
 f3 = open('./sukebei.txt','r',encoding='utf-8').readlines()
+f4 = open('./AT_all.txt','r',encoding='utf-8').readlines()
 
-for one in f1:
-    o = one.strip()
-    f1_data.append(o)
+def del_newline(file_lines):
+    data_lines = []
+    for f in file_lines:
+        line_str = f.strip()
+        data_lines.append(line_str)
+    return data_lines
 
-for thr in f3:
-    t = thr.strip()
-    f3_data.append(t)
+f1_data = del_newline(f1)
+f3_data = del_newline(f3)
+f4_data = del_newline(f4)
 
+all = list(set(f1_data+f2+f3_data+f4_data))
 
-all = list(set(f1_data+f2+f3_data))
-
-with open('./all-of-all.txt','w',encoding='utf-8') as fall:
+with open('./SpaceLine_All.txt','w',encoding='utf-8') as fall:
     data_str = ""
     for a in range(0,len(all)):
         if a == len(all)-1:
@@ -65,5 +67,27 @@ with open('./all-of-all.txt','w',encoding='utf-8') as fall:
     fall.write(data_str)
     fall.close()
 
+with open('./aria2_all.txt','w',encoding='utf-8') as fall:
+    data_str = ""
+    for a in range(0,len(all)):
+        if a == len(all)-1:
+            data_str = data_str + all[a]
+        else:
+            data_str = data_str + all[a] + ','
+    fall.write(data_str)
+    fall.close()
+
+with open('./default_all.txt','w',encoding='utf-8') as fall:
+    data_str = ""
+    for a in range(0,len(all)):
+        if a == len(all)-1:
+            data_str = data_str + all[a]
+        else:
+            data_str = data_str + all[a] + '\n'
+    fall.write(data_str)
+    fall.close()
+
+
 os.remove('./tracker.txt')
 os.remove('./all.txt')
+os.remove('./AT_all.txt')
