@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2021/11/15 11:05
+# @Time    : 2022/10/26 12:10
 # @Author  : Mod
 # @Site    : ModChino.github.io
 # @File    : merge.py
@@ -18,24 +18,52 @@ url_XIU2 = 'https://raw.githubusercontent.com/XIU2/TrackersListCollection/master
 
 url_itmxz = 'http://github.itzmx.com/1265578519/OpenTracker/master/tracker.txt'
 
+f2 = []
+
 wget.download(url_XIU2)
 
 itmxz_data = requests.get(url_itmxz,headers).text
 
 with open('./tracker.txt','w',encoding='utf-8') as fp:
     fp.write(itmxz_data)
+    fp.close()
 
-with open('./all.txt', 'r', encoding='utf-8') as fp, open('new_all.txt', 'w+', encoding='utf-8') as new_f:
+with open('./all.txt', 'r', encoding='utf-8') as fp:
     fp_list = list(set(fp.readlines()))
     for line in fp_list:
         line = line.split('\n')[0]
         if len(line) != 0:
-            new_f.writelines(line+"\n")
+            f2.append(line)
+    fp.close()
 
-with open('./new_all.txt','r',encoding='utf-8') as f1,open('./tracker.txt','r',encoding='utf-8') as f2,open('sukebei.txt','r',encoding='utf-8') as f3,open('all-of-all.txt','w+',encoding='utf-8') as f4:
-     f4.writelines(f1.readlines())
-     f4.writelines(f2.readlines())
-     f4.writelines(f3.readlines())
-os.remove('./new_all.txt')
+#去重
+
+f1_data = []
+f3_data = []
+
+f1 = open('./tracker.txt','r',encoding='utf-8').readlines()
+f3 = open('./sukebei.txt','r',encoding='utf-8').readlines()
+
+for one in f1:
+    o = one.strip()
+    f1_data.append(o)
+
+for thr in f3:
+    t = thr.strip()
+    f3_data.append(t)
+
+
+all = list(set(f1_data+f2+f3_data))
+
+with open('./all-of-all.txt','w',encoding='utf-8') as fall:
+    data_str = ""
+    for a in range(0,len(all)):
+        if a == len(all)-1:
+            data_str = data_str + all[a]
+        else:
+            data_str = data_str + all[a] + '\n'+ '\n'
+    fall.write(data_str)
+    fall.close()
+
 os.remove('./tracker.txt')
 os.remove('./all.txt')
