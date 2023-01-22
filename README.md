@@ -23,7 +23,7 @@ aria2用：https://modchino.github.io/aria2_all.txt
 
 Best链接：
 
-默认：https://modchino.github.io/best/bset_default_all.txt
+默认：https://modchino.github.io/best/best_default_all.txt
 
 aria2用：https://modchino.github.io/best/best_aria2_all.txt
 
