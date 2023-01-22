@@ -116,7 +116,7 @@ write_file('line','./best/Best_SpaceLine_All.txt',best_all)
 write_file('aria2','./aria2_all.txt',all)
 write_file('aria2','./best/best_aria2_all.txt',best_all)
 write_file('default','./default_all.txt',all)
-write_file('default','./best/bset_default_all.txt',best_all)
+write_file('default','./best/best_default_all.txt',best_all)
 
 os.remove('./tracker.txt')
 os.remove('./all.txt')
