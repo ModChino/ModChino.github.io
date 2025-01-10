@@ -60,6 +60,7 @@ f1 = open('./tracker.txt','r',encoding='utf-8').readlines()
 f3 = open('./sukebei.txt','r',encoding='utf-8').readlines()
 f4 = open('./AT_all.txt','r',encoding='utf-8').readlines()
 f5 = open('./AT_best.txt','r',encoding='utf-8').readlines()
+f6 = open('./PBH-BTN_Trunker.txt','r',encoding='utf-8').readlines()
 
 def del_newline(file_lines):
     data_lines = []
@@ -72,10 +73,11 @@ f1_data = del_newline(f1)
 f3_data = del_newline(f3)
 f4_data = del_newline(f4)
 f5_data = del_newline(f5)
+f6_data = del_newline(f6)
 
-all = list(set(f1_data+f2+f3_data+f4_data))
+all = list(set(f1_data+f2+f3_data+f4_data+f6_data))
 
-best_all = list(set(f1_data+f2_best+f3_data+f5_data))
+best_all = list(set(f1_data+f2_best+f3_data+f5_data+f6_data))
 
 #文件写入
 
