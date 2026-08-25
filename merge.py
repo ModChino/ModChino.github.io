@@ -1,127 +1,99 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2022/10/26 13:03
-# @Author  : Mod
-# @Site    : ModChino.github.io
-# @File    : merge.py
-# @Software: PyCharm
-# @Comment :
+"""合并多个上游 Tracker 列表，生成多种格式的发布文件。
 
-import requests
-import wget
+原版问题修复：
+- write_file 末尾判断误用 len(all)，best 文件会多出尾部分隔符 -> 改为按数据本身长度判断
+- set() 去重打乱顺序 -> 改为保序去重
+- 依赖 wget 下载 -> 统一用 requests
+- 不再残留 all.txt / best.txt / AT_*.txt / tracker.txt 临时文件
+"""
 import os
 
-headers = {
-    "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
+import requests
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
 }
 
-url_XIU2 = 'https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt'
+SOURCES = {
+    "xiu2": "https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt",
+    "xiu2_best": "https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/best.txt",
+    "itzmx": "http://github.itzmx.com/1265578519/OpenTracker/master/tracker.txt",
+    "anime": "https://raw.githubusercontent.com/DeSireFire/animeTrackerList/master/AT_all.txt",
+    "anime_best": "https://raw.githubusercontent.com/DeSireFire/animeTrackerList/master/AT_best.txt",
+}
 
-url_XIU2_best = 'https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/best.txt'
+LOCAL_FILES = ["sukebei.txt", "PBH-BTN_Trunker.txt"]
 
-url_itmxz = 'http://github.itzmx.com/1265578519/OpenTracker/master/tracker.txt'
+# (格式, 输出路径, 用全量还是 best)
+OUTPUTS = [
+    ("default", "./default_all.txt", "all"),
+    ("default", "./best/best_default_all.txt", "best"),
+    ("line", "./SpaceLine_All.txt", "all"),
+    ("line", "./best/Best_SpaceLine_All.txt", "best"),
+    ("aria2", "./aria2_all.txt", "all"),
+    ("aria2", "./best/best_aria2_all.txt", "best"),
+]
 
-url_animeTrackerList = 'https://raw.githubusercontent.com/DeSireFire/animeTrackerList/master/AT_all.txt'
 
-url_animeTrackerList_best = 'https://raw.githubusercontent.com/DeSireFire/animeTrackerList/master/AT_best.txt'
+def fetch(url):
+    resp = requests.get(url, headers=HEADERS, timeout=30)
+    resp.raise_for_status()
+    return resp.text
 
 
-f2 = []
-f2_best = []
+def read_local(path):
+    with open(path, "r", encoding="utf-8") as fp:
+        return fp.read()
 
-wget.download(url_XIU2)
-wget.download(url_XIU2_best)
-wget.download(url_animeTrackerList)
-wget.download(url_animeTrackerList_best)
 
-itmxz_data = requests.get(url_itmxz,headers).text
+def clean_lines(text):
+    """按行去除首尾空白，丢弃空行。"""
+    return [line.strip() for line in text.splitlines() if line.strip()]
 
-with open('./tracker.txt','w',encoding='utf-8') as fp:
-    fp.write(itmxz_data)
-    fp.close()
 
-with open('./all.txt', 'r', encoding='utf-8') as fp:
-    fp_list = list(set(fp.readlines()))
-    for line in fp_list:
-        line = line.split('\n')[0]
-        if len(line) != 0:
-            f2.append(line)
-    fp.close()
+def dedupe(items):
+    """保序去重。"""
+    seen = set()
+    out = []
+    for item in items:
+        if item not in seen:
+            seen.add(item)
+            out.append(item)
+    return out
 
-with open('./best.txt', 'r', encoding='utf-8') as fp:
-    fp_list = list(set(fp.readlines()))
-    for line in fp_list:
-        line = line.split('\n')[0]
-        if len(line) != 0:
-            f2_best.append(line)
-    fp.close()
 
-#合并与去重
-f1 = open('./tracker.txt','r',encoding='utf-8').readlines()
-f3 = open('./sukebei.txt','r',encoding='utf-8').readlines()
-f4 = open('./AT_all.txt','r',encoding='utf-8').readlines()
-f5 = open('./AT_best.txt','r',encoding='utf-8').readlines()
-f6 = open('./PBH-BTN_Trunker.txt','r',encoding='utf-8').readlines()
+def build_list(use_best):
+    data = []
+    data += clean_lines(fetch(SOURCES["xiu2_best" if use_best else "xiu2"]))
+    data += clean_lines(fetch(SOURCES["itzmx"]))
+    data += clean_lines(fetch(SOURCES["anime_best" if use_best else "anime"]))
+    for path in LOCAL_FILES:
+        data += clean_lines(read_local(path))
+    return dedupe(data)
 
-def del_newline(file_lines):
-    data_lines = []
-    for f in file_lines:
-        line_str = f.strip()
-        data_lines.append(line_str)
-    return data_lines
 
-f1_data = del_newline(f1)
-f3_data = del_newline(f3)
-f4_data = del_newline(f4)
-f5_data = del_newline(f5)
-f6_data = del_newline(f6)
+def render(items, fmt):
+    if fmt == "default":
+        return "\n".join(items)
+    if fmt == "line":
+        return "\n\n".join(items)
+    if fmt == "aria2":
+        return ",".join(items)
+    raise ValueError(f"unknown format: {fmt}")
 
-all = list(set(f1_data+f2+f3_data+f4_data+f6_data))
 
-best_all = list(set(f1_data+f2_best+f3_data+f5_data+f6_data))
+def main():
+    all_list = build_list(False)
+    best_list = build_list(True)
 
-#文件写入
+    for fmt, path, which in OUTPUTS:
+        items = all_list if which == "all" else best_list
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(render(items, fmt))
+        print(f"wrote {path}: {len(items)} trackers")
 
-def write_file(a,filepath,data):
-    if a == 'line':
-        with open(filepath, 'w', encoding='utf-8') as fall:
-            data_str = ""
-            for a in range(0, len(data)):
-                if a == len(all) - 1:
-                    data_str = data_str + data[a]
-                else:
-                    data_str = data_str + data[a] + '\n' + '\n'
-            fall.write(data_str)
-            fall.close()
-    elif a == 'aria2':
-        with open(filepath, 'w', encoding='utf-8') as fall:
-            data_str = ""
-            for a in range(0, len(data)):
-                if a == len(all) - 1:
-                    data_str = data_str + data[a]
-                else:
-                    data_str = data_str + data[a] + ','
-            fall.write(data_str)
-            fall.close()
-    elif a == 'default':
-        with open(filepath, 'w', encoding='utf-8') as fall:
-            data_str = ""
-            for a in range(0, len(data)):
-                if a == len(all) - 1:
-                    data_str = data_str + data[a]
-                else:
-                    data_str = data_str + data[a] + '\n'
-            fall.write(data_str)
-            fall.close()
 
-write_file('line','./SpaceLine_All.txt',all)
-write_file('line','./best/Best_SpaceLine_All.txt',best_all)
-write_file('aria2','./aria2_all.txt',all)
-write_file('aria2','./best/best_aria2_all.txt',best_all)
-write_file('default','./default_all.txt',all)
-write_file('default','./best/best_default_all.txt',best_all)
-
-os.remove('./tracker.txt')
-os.remove('./all.txt')
-os.remove('./AT_all.txt')
-os.remove('./AT_best.txt')
-os.remove('./best.txt')
+if __name__ == "__main__":
+    main()
