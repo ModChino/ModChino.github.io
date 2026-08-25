@@ -1,17 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trackers</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ModChino · BT Tracker 集</title>
+<style>
+  :root {
+    --bg: #f7f7f8;
+    --card: #ffffff;
+    --text: #1c1c1e;
+    --muted: #8e8e93;
+    --line: #e5e5ea;
+    --accent: #007aff;
+    --code-bg: #f2f2f7;
+    --code-border: #d9d9de;
+    --copy-bg: #f2f2f7;
+    --copy-hover: #e5e5ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121214;
+      --card: #1c1c1e;
+      --text: #f2f2f7;
+      --muted: #98989d;
+      --line: #2c2c2e;
+      --accent: #0a84ff;
+      --code-bg: #17171a;
+      --code-border: #3a3a3c;
+      --copy-bg: #2a2a2c;
+      --copy-hover: #3a3a3c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 48px 20px 64px; }
+  header { margin-bottom: 32px; }
+  h1 { font-size: 24px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.3px; }
+  .sub { color: var(--muted); font-size: 14px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 16px 14px;
+    margin-bottom: 12px;
+  }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .name { font-weight: 600; font-size: 15px; }
+  .tag {
+    font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 8px;
+  }
+  .copy {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--copy-bg); color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px 12px; font-size: 13px; cursor: pointer;
+    transition: background .15s ease;
+  }
+  .copy:hover { background: var(--copy-hover); }
+  .copy svg { width: 14px; height: 14px; }
+  .copy.ok { color: #34c759; border-color: rgba(52,199,89,.4); }
+  .code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 13px;
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    color: var(--accent);
+  }
+  footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: 12px; }
+  footer a { color: var(--muted); }
+</style>
 </head>
 <body>
-    <a href="./default_all.txt">default_trackers</a>
-    <a href="./aria2_all.txt">aria2_trackers</a>
-    <a href="./SpaceLine_All.txt">SpaceLine_trackers</a>
-    <a href="./best/Best_SpaceLine_All.txt">best_SpaceLine_trackers</a>
-    <a href="./best/best_aria2_all.txt">best_aria2_trackers</a>
-    <a href="./best/best_default_all.txt">best_default_trackers</a>
+<div class="wrap">
+  <header>
+    <h1>BT Tracker 集</h1>
+    <div class="sub">每日 14:00 UTC 自动合并 · 点击右上角一键复制 URL 订阅</div>
+  </header>
+  <div id="list"></div>
+  <footer>数据源自 <a href="https://github.com/XIU2/TrackersListCollection">XIU2</a> · <a href="https://github.com/DeSireFire/animeTrackerList">animeTrackerList</a> · 备用 <a href="https://trackers.chino.one/">trackers.chino.one</a></footer>
+</div>
+
+<script>
+const data = [
+  { name: "默认 · 每行一个", href: "./default_all.txt" },
+  { name: "ARIA2 · 逗号分隔", href: "./aria2_all.txt" },
+  { name: "空行切割", href: "./SpaceLine_All.txt" },
+  { name: "Best 默认 · 每行一个", href: "./best/best_default_all.txt" },
+  { name: "Best ARIA2 · 逗号分隔", href: "./best/best_aria2_all.txt" },
+  { name: "Best 空行切割", href: "./best/Best_SpaceLine_All.txt" },
+];
+
+const ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h8v8H4z"/><rect x="6" y="1.5" width="9" height="9" rx="1"/></svg>';
+const OK = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3 3 7-7"/></svg>';
+
+const list = document.getElementById("list");
+
+data.forEach(item => {
+  const url = new URL(item.href, location.href).href;
+
+  const el = document.createElement("div");
+  el.className = "card";
+
+  const row = document.createElement("div");
+  row.className = "row";
+
+  const name = document.createElement("div");
+  name.className = "name";
+  name.textContent = item.name;
+
+  const btn = document.createElement("button");
+  btn.className = "copy";
+  btn.innerHTML = ICON + "<span>复制</span>";
+  btn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      btn.innerHTML = OK + "<span>已复制</span>";
+      btn.classList.add("ok");
+      setTimeout(() => { btn.classList.remove("ok"); btn.innerHTML = ICON + "<span>复制</span>"; }, 1600);
+    } catch (e) {
+      // 剪贴板 API 不可用时的降级
+      const ta = document.createElement("textarea");
+      ta.value = url; document.body.appendChild(ta);
+      ta.select(); document.execCommand("copy"); ta.remove();
+      btn.innerHTML = OK + "<span>已复制</span>";
+      btn.classList.add("ok");
+      setTimeout(() => { btn.classList.remove("ok"); btn.innerHTML = ICON + "<span>复制</span>"; }, 1600);
+    }
+  });
+
+  const code = document.createElement("div");
+  code.className = "code";
+  code.textContent = url;
+
+  row.appendChild(name);
+  row.appendChild(btn);
+  el.appendChild(row);
+  el.appendChild(code);
+  list.appendChild(el);
+});
+</script>
 </body>
 </html>
