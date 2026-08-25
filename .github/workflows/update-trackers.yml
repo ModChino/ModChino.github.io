@@ -32,7 +32,7 @@ jobs:
       - name: Commit and push
         run: |
           git config --local user.name ModChino
-          git config --local user.email ModChino@users.noreply.github.com
+          git config --local user.email 44693212+ModChino@users.noreply.github.com
           git add default_all.txt aria2_all.txt SpaceLine_All.txt best/ README.md
           if git diff --cached --quiet; then
             echo "no changes"
