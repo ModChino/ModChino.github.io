@@ -14,8 +14,6 @@ http://tracker.dhitechnical.com:6969/announce
 
 http://tracker.dler.com:6969/announce
 
-http://tracker.dler.org:6969/announce
-
 http://tracker.mywaifu.best:6969/announce
 
 http://tracker.renfei.net:8080/announce
@@ -23,8 +21,6 @@ http://tracker.renfei.net:8080/announce
 http://tracker.waaa.moe:6969/announce
 
 http://www.wareztorrent.com:80/announce
-
-https://004430.xyz:443/announce
 
 https://1.tracker.eu.org:443/announce
 
@@ -104,7 +100,11 @@ udp://tracker.corpscorp.online:80/announce
 
 udp://tracker.dler.com:6969/announce
 
+udp://tracker.dler.org:6969/announce
+
 udp://tracker.ducks.party:1984/announce
+
+udp://tracker.farted.net:6969/announce
 
 udp://tracker.gmi.gd:6969/announce
 
@@ -127,8 +127,6 @@ udp://tracker.skynetcloud.site:6969/announce
 udp://tracker.skyts.net:6969/announce
 
 udp://tracker.torrent.eu.org:451/announce
-
-udp://tracker.tryhackx.org:6969/announce
 
 udp://tracker.wildkat.net:6969/announce
 
@@ -156,9 +154,9 @@ udp://tracker3.itzmx.com:6961/announce
 
 udp://tracker4.itzmx.com:2710/announce
 
-http://107.189.2.131:1337/announce
+http://94.23.207.177:6969/announce
 
-http://132.243.161.144:6969/announce
+http://107.189.2.131:1337/announce
 
 http://207.241.226.111:6969/announce
 
@@ -176,13 +174,7 @@ http://retracker.hotplug.ru:2710/announce
 
 http://retracker01-msk-virt.corbina.net/announce
 
-http://tracker.opentorrent.top:6969/announce
-
 http://tracker.opentrackr.org:1337/announce
-
-http://tracker.plx.im:6969/announce
-
-http://tracker.therarbg.to:6969/announce
 
 http://tracker2.dler.org/announce
 
