@@ -8,6 +8,7 @@ http://nyaa.tracker.wf:7777/announce
 http://open.tracker.cl:1337/announce
 http://opentracker.lain.moscow:6969/announce
 http://retracker01-msk-virt.corbina.net:80/announce
+http://t.overflow.biz:6969/announce
 http://torrentsmd.com:8080/announce
 http://tr.nyacat.pw:80/announce
 http://tracker.23794.top:6969/announce
@@ -21,7 +22,6 @@ http://tracker.okade.pro:1337/announce
 http://tracker.opentrackr.org:1337/announce
 http://tracker.qu.ax:6969/announce
 http://tracker.renfei.net:8080/announce
-http://tracker.skyts.net:6969/announce
 http://tracker.waaa.moe:6969/announce
 http://tracker.xn--djrq4gl4hvoi.top:80/announce
 http://tracker.zhuqiy.dgj055.icu:80/announce
@@ -32,6 +32,7 @@ http://www.wareztorrent.com:80/announce
 https://004430.xyz:443/announce
 https://1.tracker.eu.org:443/announce
 https://1337.abcvg.info:443/announce
+https://ht.therarbg.to:443/announce
 https://open.ftorrent.com:443/announce
 https://t.213891.xyz:443/announce
 https://t1.hloli.org:443/announce
@@ -46,6 +47,7 @@ https://tracker.augrains.com:443/announce
 https://tracker.foreverpirates.co:443/announce
 https://tracker.kuroy.me:443/announce
 https://tracker.nekomi.cn:443/announce
+https://tracker.pmman.tech:443/announce
 https://tracker.qingwapt.org:443/announce
 https://tracker.vectahosting.eu:443/announce
 https://tracker.yume-hatsuyuki.moe:443/announce
@@ -72,6 +74,7 @@ udp://ns575949.ip-51-222-82.net:6969/announce
 udp://open.demonii.com:1337/announce
 udp://open.ftorrent.com:443/announce
 udp://open.stealth.si:80/announce
+udp://open.tracker.cl:1337/announce
 udp://open.tracker.ink:6969/announce
 udp://opentor.org:2710/announce
 udp://opentracker.lain.moscow:6969/announce
@@ -89,7 +92,6 @@ udp://tr3.ysagin.top:2715/announce
 udp://tr4ck3r.duckdns.org:6969/announce
 udp://tracker-udp.gbitt.info:80/announce
 udp://tracker.004430.xyz:1337/announce
-udp://tracker.23794.top:6969/announce
 udp://tracker.alt.cx:6969/announce
 udp://tracker.bittor.pw:1337/announce
 udp://tracker.bluefrog.pw:2710/announce
@@ -99,6 +101,7 @@ udp://tracker.cyberia.is:6969/announce
 udp://tracker.dler.com:6969/announce
 udp://tracker.dler.org:6969/announce
 udp://tracker.ducks.party:1984/announce
+udp://tracker.edkj.club:6969/announce
 udp://tracker.evergarden.uk:1914/announce
 udp://tracker.farted.net:6969/announce
 udp://tracker.filemail.com:6969/announce
@@ -115,9 +118,10 @@ udp://tracker.opentrackr.org:1337/announce
 udp://tracker.peerfect.org:6969/announce
 udp://tracker.playground.ru:6969/announce
 udp://tracker.qu.ax:6969/announce
-udp://tracker.sela.st:6969/announce
 udp://tracker.skynetcloud.site:6969/announce
 udp://tracker.skyts.net:6969/announce
+udp://tracker.t-rb.org:6969/announce
+udp://tracker.theoks.net:6969/announce
 udp://tracker.torrent.eu.org:451/announce
 udp://tracker.torrents.observer:80/announce
 udp://tracker.transfur.org:6969/announce
@@ -378,7 +382,6 @@ http://fxtt.ru:80/announce
 udp://yann5.hexanyn.fr:6969/announce
 https://opentracker.xyz:443/announce
 udp://rutorrent.frontline-mod.com:6969/announce
-http://t.overflow.biz:6969/announce
 http://tracker.dmcomic.org:2710/announce
 http://tracker.ipv6tracker.org:80/announce
 http://tracker.tfile.me:80/announce
@@ -521,6 +524,7 @@ http://tracker.gigatorrents.ws:2710/announce
 http://tracker.linkomanija.org:2710/announce
 http://torrent.unix-ag.uni-kl.de/announce
 http://open.touki.ru/announce.php
+http://tracker.skyts.net:6969/announce
 http://alltorrents.net/bt/announce.php
 http://tracker.torrentbytes.net/announce.php
 udp://mts.tvbit.co:6969/announce
@@ -593,7 +597,6 @@ http://141.144.224.250:6969/announce
 http://45.154.253.5/announce
 https://tracker.torrentsnows.com/announce
 udp://tracker.internetwarriors.net:1337/announce
-udp://open.tracker.cl:1337/announce
 http://45.154.253.6/announce
 https://abir0dev.github.io:443/announce
 http://tracker.lintk.me:2710/announce
@@ -651,7 +654,6 @@ http://www.torrentsnipe.info:2701/announce
 https://tracker.lelux.fi:443/announce
 http://tracker.lelux.fi/announce
 http://tracker.lelux.fi:80/announce
-udp://tracker.edkj.club:6969/announce
 http://tracker.pow7.com/announce
 https://tracker.lelux.fi/announce
 http://tracker.anirena.com/b16a15d9a238d1f59178d3614b857290/announce
